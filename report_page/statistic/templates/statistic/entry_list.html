@@ -1,18 +1,44 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Entries</h1>
-{% if user.is_authenticated %}
-<p>Hello {{user.username}}</p>
-{% endif %}
-<ul>
-    {% for entry in object_list %}
-    <li>{{ entry.datetime|date }} - {{ entry.duration }} - {{ entry.distance }}</li>
-    <p>delete</p>
-    <p>view</p>
-    <p>update</p>
-    {% empty %}
-    <li>No entries yet.</li>
-    {% endfor %}
-    <button>Add new</button>
-</ul>
+<div>
+    <form method="post">
+          {% csrf_token %} 
+          {{form.as_p}}
+          <button type="submit">Submit</button>
+    </form>
+</div>
+      <!-- list of entries  -->
+      <div>
+          <h4 class="text-center mb-3 mt-3">Entries List</h4>
+          <div class="table-responsive-sm">
+              <table class="table table-hover">
+                  <thead class="thead-light">
+                      <tr>
+                          <th scope="col">Datetime</th>
+                          <th scope="col">Distance</th>
+                          <th scope="col">Duration</th>
+                          <th scope="col">View</th>
+                          <th scope="col">Delete</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% for entry in entries %}
+                      <tr>
+                          <td>{{entry.datetime}}</td>
+                          <td>{{entry.distance}}</td>
+                          <td>{{entry.duration}}</td>
+                          <td>
+                              <a role="button" class="btn btn-sm btn-outline-success"
+                                  href="{% url 'entry_detail' id=entry.id %}">View</a>
+                          </td>
+                          <td>
+                              <a role="button" class="btn btn-sm btn-outline-danger" href="{% url 'delete' id=entry.id %}">Delete</a>
+                      </tr>
+                      {% empty %}
+                      <span class="text-center">No entries</span>
+                      {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+      </div>
 {% endblock %}
