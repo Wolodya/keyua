@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Entries</h1>
+{% if user.is_authenticated %}
+<p>Hello {{user.username}}</p>
+{% endif %}
+<ul>
+    {% for entry in object_list %}
+    <li>{{ entry.datetime|date }} - {{ entry.duration }} - {{ entry.distance }}</li>
+    <p>delete</p>
+    <p>view</p>
+    <p>update</p>
+    {% empty %}
+    <li>No entries yet.</li>
+    {% endfor %}
+    <button>Add new</button>
+</ul>
+{% endblock %}
