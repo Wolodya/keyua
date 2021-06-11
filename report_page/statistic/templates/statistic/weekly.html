@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- list of entries  -->
+{% if user.is_authenticated %}
+<div>
+    <h4 class="text-center mb-3 mt-3">Weekly stats</h4>
+    <div class="table-responsive-lg">
+        <table class="table table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Week</th>
+                    <th scope="col">Total entries</th>
+                    <th scope="col">Total distance</th>
+                    <th scope="col">Total duration</th>
+                    <th scope="col">Average Speed</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in stats %}
+                <tr>
+                    <td>{{entry.week}}</td>
+                    <td>{{entry.total_entries}}</td>
+                    <td>{{entry.total_distance}}</td>
+                    <td>{{entry.total_duration}}</td>
+                    <td>{{entry.avg_speed}}</td>
+                </tr>
+                {%empty%}
+                <span class="text-center">No stats</span>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{%else%}
+<p>README page</p>
+{% endif %}
+{% endblock %}

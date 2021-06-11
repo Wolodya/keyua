@@ -1,7 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import Avg, Count, Sum
+from django.db.models.functions import ExtractWeek
 
-# Create your models here.
+class EntryManager(models.Manager):
+    def get_weekly_stats(self, start_datetime, end_datetime, user):
+        return self.filter(user=user, datetime__range=(start_datetime, end_datetime)).annotate(week=ExtractWeek('datetime')).values(
+            'week').annotate(avg_speed=Avg('speed'), total_distance=Sum('distance'), total_duration=Sum('duration'), total_entries=Count('id'))
+
 
 class Entry(models.Model):
     datetime = models.DateTimeField()
@@ -16,3 +22,5 @@ class Entry(models.Model):
     def save(self, *args, **kwargs):
         self.speed = self.distance/self.duration
         super().save(*args,**kwargs)
+
+    stats = EntryManager()
