@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'statistic.apps.StatisticConfig',
-    'accounts.apps.AccountsConfig'
+    'accounts.apps.AccountsConfig',
+
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -126,3 +128,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CELERY_ACCEPT_CONTENT = ['json']
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+CELERY_IMPORTS = (
+    'statistic.tasks'
+)
