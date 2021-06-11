@@ -66,7 +66,8 @@ def entry_list(request, **kwargs):
         qs =  Entry.objects.filter(user=request.user, datetime__range=(datetime_start, datetime_end))
     else:
         qs =  Entry.objects.filter(user=request.user)
-    avg_speed = round(qs.aggregate(Avg('speed'))['speed__avg'],2)
+    avg_speed = qs.aggregate(Avg('speed'))['speed__avg']
+    avg_speed = avg_speed and round(avg_speed, 2)
     entries = qs.values('id','datetime','distance','duration')
     
     context = {'entries': entries, 'avg_speed': avg_speed, 'form':form}
