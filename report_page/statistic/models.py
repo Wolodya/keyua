@@ -24,3 +24,4 @@ class Entry(models.Model):
         super().save(*args,**kwargs)
 
     stats = EntryManager()
+    objects = models.Manager()
